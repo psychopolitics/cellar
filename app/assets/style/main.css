@@ -1,0 +1,372 @@
+@import "@tailwind base";
+@tailwind components;
+@tailwind utilities;
+
+@import "./animation.css";
+@import "./glass.css";
+
+:root {
+  --color-bg: #ffffff;
+  --color-surface: #f8f8f8;
+  --color-surface-hover: #f0f0f0;
+  --color-text: #0a0a0a;
+  --color-text-muted: #4a4a4a;
+  --color-border: #e0e0e0;
+  --color-border-hover: #d0d0d0;
+  
+  /* Glass Effects */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  --backdrop-blur: blur(10px);
+  
+  /* 3D Effect */
+  --elevation-1: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --elevation-2: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --elevation-3: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  
+  /* Transitions */
+  --transition-base: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+
+  /* Spotlight Effect */
+  --spotlight-color: rgba(0, 0, 0, 0.05);
+}
+
+.dark {
+  /* Dark Mode Colors */
+  --color-bg: #0a0a0a;
+  --color-surface: #121212;
+  --color-surface-hover: #1a1a1a;
+  --color-text: #f5f5f5;
+  --color-text-muted: #a0a0a0;
+  --color-border: #2a2a2a;
+  --color-border-hover: #3a3a3a;
+  
+  /* Glass Effects - Dark Mode */
+  --glass-bg: rgba(10, 10, 10, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.05);
+  --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+
+  /* Spotlight Effect - Dark Mode */
+  --spotlight-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Glass Effect Utility */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+/* 3D Card Effect */
+.card-3d {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transform-style: preserve-3d;
+  transform: perspective(1000px) rotateY(0) rotateX(0) translateZ(0);
+  will-change: transform, box-shadow;
+}
+
+.card-3d:hover {
+  transform: perspective(1000px) rotateY(5deg) rotateX(5deg) translateZ(10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Base Styles */
+@layer base {
+  html {
+    @apply antialiased;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+
+    /* The Spotlight/Aura Effect */
+    background-image: radial-gradient(
+      circle 400px at var(--spotlight-x, 50%) var(--spotlight-y, 50%),
+      var(--spotlight-color),
+      transparent
+    );
+
+    transition: var(--transition-base);
+  }
+  
+  body {
+    @apply min-h-screen;
+  }
+  
+  /* Typography */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-medium tracking-tight;
+    color: var(--color-text);
+  }
+  
+  /* Links */
+  a {
+    @apply transition-colors duration-200;
+    color: var(--color-text);
+    text-decoration: none;
+    position: relative;
+  }
+  
+  a:hover {
+    color: var(--color-text);
+  }
+  
+  a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    bottom: -2px;
+    left: 0;
+    background-color: var(--color-text);
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease;
+  }
+  
+  a:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+}
+
+/* Layout */
+html, body, #__nuxt, #__layout {
+  @apply h-full w-full m-0 p-0;
+  scroll-behavior: smooth;
+  
+  /* Custom Scrollbar */
+  &::-webkit-scrollbar {
+    @apply w-2;
+  }
+  
+  &::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    @apply bg-gray-400 dark:bg-gray-600 rounded-full;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+  
+  &::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-500 dark:bg-gray-500;
+  }
+}
+
+/* Minimal Container */
+.container {
+  @apply mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl;
+}
+
+/* Section Spacing */
+section {
+  @apply py-16 md:py-24 lg:py-32;
+}
+
+/* Buttons */
+.btn {
+  @apply inline-flex items-center justify-center px-6 py-3 rounded-full font-medium transition-all duration-200 ease-in-out;
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--elevation-1);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-surface-hover);
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.3s ease;
+}
+
+.btn:hover::before {
+  opacity: 1;
+}
+
+.btn-primary {
+  @apply bg-black text-white border-black hover:bg-gray-900 hover:border-gray-900 dark:bg-white dark:text-black dark:border-white dark:hover:bg-gray-100 dark:hover:border-gray-100;
+}
+
+/* Utilities */
+.text-muted {
+  color: var(--color-text-muted);
+}
+
+.border-base {
+  border-color: var(--color-border);
+}
+
+.bg-surface {
+  background-color: var(--color-surface);
+}
+
+.hover\:bg-surface-hover:hover {
+  background-color: var(--color-surface-hover);
+}
+
+@layer components {
+  .linebreak {
+    position: relative;
+    left: 0;
+    height: 1px;
+    margin: 0 auto;
+    background-image: linear-gradient(96.18deg, rgba(215, 196, 255, 0) 10%, rgba(200, 200, 200, 0.24) 50%, rgba(215, 196, 255, 0) 90%);
+  }
+
+  .text-white-shadow {
+    text-shadow: 0 4px 10px rgba(0, 87, 255, .2), 0 -4px 10px rgba(255, 90, 0, .15), 0 0 30px rgba(255, 255, 255, .2);
+  }
+}
+
+/* Typography */
+.writing {
+  @apply font-geist leading-relaxed text-gray-800 dark:text-gray-200;
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-medium tracking-tight mt-8 mb-4 text-gray-900 dark:text-white;
+  }
+  
+  h1 { @apply text-3xl sm:text-4xl md:text-5xl; }
+  h2 { @apply text-2xl sm:text-3xl md:text-4xl; }
+  @apply font-geist leading-relaxed text-gray-800 dark:text-gray-200;
+  
+  h4 { @apply text-lg sm:text-xl md:text-2xl; }
+  h5 { @apply text-base sm:text-lg md:text-xl; }
+  
+  
+  p {
+    @apply my-4 leading-relaxed;
+  }
+  
+  a {
+  
+    @apply underline underline-offset-4 decoration-1 hover:decoration-2;
+    @apply my-4 leading-relaxed;
+  
+  
+  ul, ol {
+    @apply underline underline-offset-4 decoration-1 hover:decoration-2;
+  }
+  
+  
+  li {
+    @apply pl-2;
+  
+  }
+    @apply pl-2;
+  blockquote {
+  
+    @apply border-l-4 border-gray-200 dark:border-gray-700 pl-4 py-2 my-6 italic;
+    @apply border-l-4 border-gray-200 dark:border-gray-700 pl-4 py-2 my-6 italic;
+  
+  
+  code {
+    @apply font-mono text-sm bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded;
+  }
+  
+  
+    @apply bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto my-6;
+    @apply bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto my-6;
+  
+  }
+    @apply my-8 border-t border-gray-200 dark:border-gray-800;
+  hr {
+
+  p {
+    @apply mb-4 mt-0;
+  }
+
+  a {
+    @apply text-blue-500 dark:text-blue-500 underline hover:text-blue-600;
+  }
+
+  pre {
+    @apply text-sm sm:text-base text-zinc-900 dark:text-zinc-100 my-4 p-4 bg-neutral-100 dark:bg-neutral-800 rounded-lg overflow-x-auto;
+  }
+
+  code {
+    @apply text-zinc-900 dark:text-zinc-100 text-sm px-1.5 py-0.5 bg-neutral-100 dark:bg-neutral-800 rounded;
+  }
+
+    @apply my-8 border-t border-gray-200 dark:border-gray-800;
+  }
+
+
+  ul, ol {
+    @apply mb-4 mt-4 pl-6;
+  }
+
+  li {
+    @apply mb-1;
+  }
+
+  blockquote {
+    @apply pl-4 border-l-4 border-neutral-300 dark:border-neutral-700 my-4 italic;
+  }
+
+  hr {
+    @apply my-8 border-neutral-200 dark:border-neutral-800;
+  }
+
+  p {
+    @apply mb-4 mt-0;
+  }
+
+
+  a {
+    @apply text-blue-500 dark:text-blue-500 underline hover:text-blue-600;
+
+  }
+
+  pre {
+    @apply text-sm sm:text-base text-zinc-900 dark:text-zinc-100 my-4 p-4 bg-neutral-100 dark:bg-neutral-800 rounded-lg overflow-x-auto;
+  }
+
+  code {
+    @apply text-zinc-900 dark:text-zinc-100 text-sm px-1.5 py-0.5 bg-neutral-100 dark:bg-neutral-800 rounded;
+  }
+
+  strong {
+    @apply text-neutral-900 dark:text-neutral-100 font-[500];
+  }
+
+  ul, ol {
+    @apply mb-4 mt-4 pl-6;
+  }
+
+  li {
+    @apply mb-1;
+  }
+
+  blockquote {
+    @apply pl-4 border-l-4 border-neutral-300 dark:border-neutral-700 my-4 italic;
+  }
+
+  hr {
+    @apply my-8 border-neutral-200 dark:border-neutral-800;
+  }
+
+  img {
+    @apply my-4 rounded-lg max-w-full;
+  }
+
+  figure {
+    @apply my-4;
+  }
+
+  figcaption {
+    @apply text-sm text-neutral-500 dark:text-neutral-400 mt-2;
+  }
+}

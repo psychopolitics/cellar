@@ -1,0 +1,106 @@
+/* Hover Animations */
+.hover-scale {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode hover effect */
+dark .hover-scale:hover {
+  box-shadow: 0 10px 20px rgba(255, 255, 255, 0.05);
+}
+
+/* Text hover effect */
+.text-hover-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.text-hover-underline::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: currentColor;
+  transition: width 0.3s ease;
+}
+
+.text-hover-underline:hover::after {
+  width: 100%;
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Bounce animation */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.hover-bounce:hover {
+  animation: bounce 0.5s ease infinite;
+}
+
+/* Pulse animation */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.hover-pulse:hover {
+  animation: pulse 2s infinite;
+}
+
+/* Rotate animation */
+.hover-rotate:hover {
+  transform: rotate(5deg);
+  transition: transform 0.3s ease;
+}
+
+/* Glow effect */
+.hover-glow {
+  transition: box-shadow 0.3s ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+dark .hover-glow:hover {
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+/* Staggered animations */
+.stagger-child {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Apply staggered delay to children */
+.stagger > *:nth-child(1) { animation-delay: 0.1s; }
+.stagger > *:nth-child(2) { animation-delay: 0.2s; }
+.stagger > *:nth-child(3) { animation-delay: 0.3s; }
+.stagger > *:nth-child(4) { animation-delay: 0.4s; }
+.stagger > *:nth-child(5) { animation-delay: 0.5s; }

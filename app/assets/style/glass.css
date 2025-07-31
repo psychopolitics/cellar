@@ -1,0 +1,148 @@
+/* Enhanced Glass effect with gradients */
+.glass {
+  position: relative;
+  background: linear-gradient(
+    135deg, 
+    rgba(255, 255, 255, 0.2) 0%, 
+    rgba(255, 255, 255, 0.1) 50%, 
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+  z-index: 1;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.glass::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg, 
+    rgba(255, 255, 255, 0.4) 0%, 
+    rgba(255, 255, 255, 0.1) 50%, 
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  z-index: -1;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.glass:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.2);
+}
+
+.glass:hover::before {
+  opacity: 0.8;
+}
+
+/* Dark mode glass effect */
+.dark .glass {
+  background: linear-gradient(
+    135deg, 
+    rgba(0, 0, 0, 0.3) 0%, 
+    rgba(0, 0, 0, 0.2) 50%, 
+    rgba(0, 0, 0, 0.1) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+.dark .glass::before {
+  background: linear-gradient(
+    135deg, 
+    rgba(0, 0, 0, 0.4) 0%, 
+    rgba(0, 0, 0, 0.2) 50%, 
+    rgba(0, 0, 0, 0.1) 100%
+  );
+  opacity: 0.4;
+}
+
+/* Gradient text for glass elements */
+.glass-text {
+  background: linear-gradient(90deg, #fff, #e0e0e0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dark .glass-text {
+  background: linear-gradient(90deg, #fff, #b3b3b3);
+}
+
+/* Glass card variations */
+.glass-card {
+  @apply glass rounded-2xl p-6 hover:shadow-xl transition-all duration-300;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.glass-card-hover {
+  @apply glass-card hover:translate-y-[-4px] hover:shadow-2xl;
+}
+
+/* Glass button */
+.glass-button {
+  @apply glass px-6 py-3 rounded-full font-medium transition-all duration-300;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.glass-button:hover {
+  @apply transform -translate-y-0.5 shadow-lg;
+  background: linear-gradient(
+    135deg, 
+    rgba(255, 255, 255, 0.3) 0%, 
+    rgba(255, 255, 255, 0.15) 50%, 
+    rgba(255, 255, 255, 0.1) 100%
+  );
+}
+
+/* Glass panel */
+.glass-panel {
+  @apply glass rounded-3xl p-8 backdrop-blur-xl;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 40px 0 rgba(31, 38, 135, 0.15);
+}
+
+/* Glass overlay */
+.glass-overlay {
+  @apply fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm;
+}
+
+/* Glass navigation */
+.glass-nav {
+  @apply glass fixed top-0 left-0 right-0 z-40 backdrop-blur-lg;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Glass input */
+.glass-input {
+  @apply glass w-full px-4 py-3 rounded-lg border-0 focus:ring-2 focus:ring-white/20 focus:ring-offset-2 focus:ring-offset-transparent transition-all duration-200;
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Glass scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-white/20 rounded-full backdrop-blur-md;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-white/30;
+}
